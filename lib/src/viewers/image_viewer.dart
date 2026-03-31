@@ -5,7 +5,6 @@ import 'package:photo_view/photo_view.dart';
 
 import '../../universal_file_handler.dart';
 
-
 class ImageViewer extends StatelessWidget {
   const ImageViewer({super.key, required this.file, this.title});
 

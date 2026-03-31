@@ -28,7 +28,8 @@ class _PdfViewerState extends State<PdfViewer> {
         : FileUtils.extractFileName(widget.file.path);
 
     return Scaffold(
-      appBar: AppBar(title: Text(resolvedTitle),
+      appBar: AppBar(
+        title: Text(resolvedTitle),
         actions: [
           IconButton(
             onPressed: () {

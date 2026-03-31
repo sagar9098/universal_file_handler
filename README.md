@@ -12,4 +12,12 @@ A Flutter package to open, cache, and share any file type.
 ## Usage
 
 ```dart
-await UniversalFileHandler.open(url);
+await UniversalFileHandler.open(context,url);.
+
+
+ElevatedButton(
+  onPressed: () {
+    UniversalFileHandler.open(fileUrl, context: context);
+  },
+  child: Text("Open File"),
+);
