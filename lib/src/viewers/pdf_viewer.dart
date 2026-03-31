@@ -34,7 +34,10 @@ class _PdfViewerState extends State<PdfViewer> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(resolvedTitle),
+        title: Text(
+          resolvedTitle,
+          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+        ),
         actions: [
           IconButton(
             onPressed: () {

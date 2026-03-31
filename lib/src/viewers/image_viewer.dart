@@ -27,7 +27,8 @@ class ImageViewer extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
-        title: Text(resolvedTitle),
+        title: Text(resolvedTitle,
+          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),),
         actions: [
           IconButton(
             onPressed: () {
