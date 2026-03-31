@@ -5,10 +5,15 @@ import 'package:photo_view/photo_view.dart';
 
 import '../../universal_file_handler.dart';
 
+/// Full-screen viewer for image files resolved by the package.
 class ImageViewer extends StatelessWidget {
+  /// Creates an image viewer for [file].
   const ImageViewer({super.key, required this.file, this.title});
 
+  /// Local image file to display.
   final File file;
+
+  /// Optional title shown in the app bar.
   final String? title;
 
   @override

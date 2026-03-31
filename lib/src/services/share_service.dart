@@ -4,9 +4,14 @@ import 'package:share_plus/share_plus.dart';
 
 import '../core/file_utils.dart';
 
+/// Wraps platform sharing for resolved files.
 class ShareService {
+  /// Creates a share service.
   const ShareService();
 
+  /// Shares [file] with the platform share sheet.
+  ///
+  /// Optional [text] and [subject] values are forwarded to the share request.
   Future<void> shareFile(File file, {String? text, String? subject}) async {
     if (!await file.exists()) {
       throw SourceFileNotFoundException(

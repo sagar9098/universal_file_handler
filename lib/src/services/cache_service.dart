@@ -7,12 +7,15 @@ import 'package:path_provider/path_provider.dart';
 import '../core/file_utils.dart';
 import '../models/file_config.dart';
 
+/// Manages persistent and temporary disk storage for resolved files.
 class CacheService {
+  /// Creates a cache service using [client] for network downloads.
   CacheService({http.Client? client}) : _client = client ?? http.Client();
 
   final http.Client _client;
   final Map<String, Future<File>> _pendingLoads = <String, Future<File>>{};
 
+  /// Returns a file from local storage or managed disk cache when it exists.
   Future<File?> getFileFromDisk(
     String sourceKey,
     FileSourceType sourceType,
@@ -35,6 +38,7 @@ class CacheService {
     }
   }
 
+  /// Downloads a network file into managed storage.
   Future<File> downloadNetworkFile(String sourceKey, FileConfig config) {
     final uri = FileUtils.parseNetworkUri(sourceKey);
 
@@ -45,6 +49,7 @@ class CacheService {
     );
   }
 
+  /// Creates or reuses a managed file produced by [loadBytes].
   Future<File> materializeManagedFile(
     String sourceKey,
     FileConfig config,
@@ -64,6 +69,7 @@ class CacheService {
     });
   }
 
+  /// Deletes the managed cached file for [sourceKey] when applicable.
   Future<void> removeManagedFile(
     String sourceKey,
     FileSourceType sourceType,
@@ -79,6 +85,7 @@ class CacheService {
     }
   }
 
+  /// Removes every managed file from the selected cache directory.
   Future<void> clearManagedCache({required bool cache}) async {
     final directory = await _getBaseDirectory(cache: cache);
     if (await directory.exists()) {

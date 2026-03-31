@@ -5,10 +5,15 @@ import 'package:flutter_pdfview/flutter_pdfview.dart';
 
 import '../../universal_file_handler.dart';
 
+/// Full-screen viewer for PDF files resolved by the package.
 class PdfViewer extends StatefulWidget {
+  /// Creates a PDF viewer for [file].
   const PdfViewer({super.key, required this.file, this.title});
 
+  /// Local PDF file to display.
   final File file;
+
+  /// Optional title shown in the app bar.
   final String? title;
 
   @override

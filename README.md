@@ -17,7 +17,7 @@ await UniversalFileHandler.open(context,url);.
 
 ElevatedButton(
   onPressed: () {
-    UniversalFileHandler.open(fileUrl, context: context);
+    UniversalFileHandler.open(context,fileUrl);
   },
   child: Text("Open File"),
 );

@@ -7,12 +7,15 @@ import '../core/file_utils.dart';
 import '../models/file_config.dart';
 import 'cache_service.dart';
 
+/// Loads Flutter assets into managed file storage.
 class AssetService {
+  /// Creates an asset loader backed by [cacheService].
   AssetService({required CacheService cacheService})
     : _cacheService = cacheService;
 
   final CacheService _cacheService;
 
+  /// Resolves [assetKey] into a local file that can be opened or shared.
   Future<File> loadAsset(String assetKey, FileConfig config) {
     FileUtils.log(config, 'Loading asset: $assetKey');
 

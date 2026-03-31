@@ -13,6 +13,7 @@ import 'cache_service.dart';
 import 'memory_cache_service.dart';
 import 'share_service.dart';
 
+/// Public entrypoint for resolving, opening, caching, and sharing files.
 class UniversalFileHandler {
   UniversalFileHandler._();
 
@@ -23,11 +24,15 @@ class UniversalFileHandler {
   );
   static const ShareService _shareService = ShareService();
 
+  /// Detects the file type for [source] from its extension.
   static FileType getFileType(String source) {
     return FileUtils.detectFileType(source);
   }
 
-  /// save file local or cache
+  /// Resolves [source] into a local [File] using the package pipeline.
+  ///
+  /// The lookup order is memory cache, disk cache, asset or network loading,
+  /// and finally local file validation.
   static Future<File> prepareFile(
     String source, {
     FileConfig config = const FileConfig(),
@@ -78,8 +83,10 @@ class UniversalFileHandler {
     return resolvedFile;
   }
 
-  /// Opens a file from network, asset, or local path.
-  /// Automatically detects type and handles accordingly.
+  /// Opens a resolved file for the user.
+  ///
+  /// Pass [context] for image and PDF files so the built-in viewers can be
+  /// presented. Other file types are forwarded to the platform opener.
   static Future<void> open(
     BuildContext? context,
     String source, {
@@ -133,7 +140,7 @@ class UniversalFileHandler {
     }
   }
 
-  /// share a file
+  /// Resolves [source] and presents the platform share sheet.
   static Future<void> share(
     String source, {
     FileConfig config = const FileConfig(),
@@ -144,12 +151,12 @@ class UniversalFileHandler {
     await _shareService.shareFile(file, text: text, subject: subject);
   }
 
-  // clear all cache from memory
+  /// Clears every entry stored in the in-memory cache.
   static void clearMemoryCache() {
     _memoryCache.clear();
   }
 
-  // clear source cache from memory
+  /// Removes the in-memory cache entry for [source].
   static void removeFromMemoryCache(
     String source, {
     FileConfig config = const FileConfig(),
@@ -161,7 +168,7 @@ class UniversalFileHandler {
     _memoryCache.remove(sourceKey);
   }
 
-  // remove source from disk cache
+  /// Removes the managed disk cache entry for [source].
   static Future<void> removeFromDiskCache(
     String source, {
     FileConfig config = const FileConfig(),
@@ -175,7 +182,7 @@ class UniversalFileHandler {
     await _cacheService.removeManagedFile(sourceKey, sourceType, config);
   }
 
-  // clear all from disk cache
+  /// Clears the managed disk cache directory.
   static Future<void> clearDiskCache({bool cache = true}) {
     return _cacheService.clearManagedCache(cache: cache);
   }

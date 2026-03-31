@@ -1,4 +1,6 @@
+/// Configuration used while resolving, caching, and loading files.
 class FileConfig {
+  /// Creates a file handling configuration.
   const FileConfig({
     this.cache = true,
     this.enableLog = false,
@@ -7,12 +9,22 @@ class FileConfig {
     this.assetPackage,
   });
 
+  /// Whether resolved files should use persistent storage instead of temp storage.
   final bool cache;
+
+  /// Whether internal package logging should be printed with `debugPrint`.
   final bool enableLog;
+
+  /// Optional HTTP headers used for network downloads.
   final Map<String, String> headers;
+
+  /// Maximum time allowed for a network download request.
   final Duration timeout;
+
+  /// Package name used when resolving assets from another package.
   final String? assetPackage;
 
+  /// Returns a copy with the provided values replaced.
   FileConfig copyWith({
     bool? cache,
     bool? enableLog,

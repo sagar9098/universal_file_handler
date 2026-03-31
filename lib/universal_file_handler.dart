@@ -1,3 +1,4 @@
+// Public exports for the `universal_file_handler` package.
 export 'src/core/file_type.dart';
 export 'src/core/file_utils.dart';
 export 'src/models/file_config.dart';

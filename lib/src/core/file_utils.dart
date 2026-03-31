@@ -5,24 +5,43 @@ import 'package:flutter/foundation.dart';
 import '../models/file_config.dart';
 import 'file_type.dart';
 
-enum FileSourceType { network, asset, local }
+/// Supported source categories for incoming file references.
+enum FileSourceType {
+  /// A remote HTTP or HTTPS URL.
+  network,
 
+  /// A Flutter asset path.
+  asset,
+
+  /// A path or file URI on the local device.
+  local,
+}
+
+/// Base exception for errors raised by this package.
 class UniversalFileHandlerException implements Exception {
+  /// Creates an exception with a message and optional underlying details.
   const UniversalFileHandlerException(
     this.message, {
     this.cause,
     this.stackTrace,
   });
 
+  /// Human-readable description of the failure.
   final String message;
+
+  /// Original error object, if one is available.
   final Object? cause;
+
+  /// Stack trace captured when the exception was created.
   final StackTrace? stackTrace;
 
   @override
   String toString() => '$runtimeType: $message';
 }
 
+/// Thrown when a provided file source cannot be interpreted.
 class InvalidFileSourceException extends UniversalFileHandlerException {
+  /// Creates an invalid source exception.
   const InvalidFileSourceException(
     super.message, {
     super.cause,
@@ -30,11 +49,15 @@ class InvalidFileSourceException extends UniversalFileHandlerException {
   });
 }
 
+/// Thrown when a file cannot be loaded into managed storage.
 class FileLoadException extends UniversalFileHandlerException {
+  /// Creates a file load exception.
   const FileLoadException(super.message, {super.cause, super.stackTrace});
 }
 
+/// Thrown when an expected file cannot be found.
 class SourceFileNotFoundException extends UniversalFileHandlerException {
+  /// Creates a file not found exception.
   const SourceFileNotFoundException(
     super.message, {
     super.cause,
@@ -42,18 +65,25 @@ class SourceFileNotFoundException extends UniversalFileHandlerException {
   });
 }
 
+/// Thrown when a network download fails.
 class FileDownloadException extends UniversalFileHandlerException {
+  /// Creates a download exception.
   const FileDownloadException(super.message, {super.cause, super.stackTrace});
 }
 
+/// Thrown when a file cannot be opened for the user.
 class FileOpenException extends UniversalFileHandlerException {
+  /// Creates a file open exception.
   const FileOpenException(super.message, {super.cause, super.stackTrace});
 }
 
+/// Thrown when a share request cannot be completed.
 class FileShareException extends UniversalFileHandlerException {
+  /// Creates a file share exception.
   const FileShareException(super.message, {super.cause, super.stackTrace});
 }
 
+/// Helper methods for working with supported file sources and cache keys.
 class FileUtils {
   static final RegExp _httpSchemePattern = RegExp(
     r'^https?:',
@@ -62,6 +92,7 @@ class FileUtils {
   static final RegExp _invalidFileNamePattern = RegExp(r'[^A-Za-z0-9._-]+');
   static final RegExp _duplicateUnderscorePattern = RegExp(r'_+');
 
+  /// Returns a trimmed source string and rejects empty values.
   static String normalizeSource(String source) {
     final normalized = source.trim();
     if (normalized.isEmpty) {
@@ -70,6 +101,7 @@ class FileUtils {
     return normalized;
   }
 
+  /// Detects whether [source] points to a network URL, asset, or local file.
   static FileSourceType detectSourceType(String source) {
     final normalized = normalizeSource(source);
 
@@ -88,6 +120,7 @@ class FileUtils {
     return FileSourceType.local;
   }
 
+  /// Returns `true` when [source] is a valid HTTP or HTTPS URL.
   static bool isNetworkUrl(String source) {
     final uri = Uri.tryParse(source);
     if (uri == null) {
@@ -98,12 +131,14 @@ class FileUtils {
     return (scheme == 'http' || scheme == 'https') && uri.hasAuthority;
   }
 
+  /// Returns `true` when [source] looks like a Flutter asset path.
   static bool isAssetPath(String source) {
     final normalized = _stripLeadingCurrentDirectory(normalizeSource(source));
     return normalized.startsWith('assets/') ||
         normalized.startsWith('packages/');
   }
 
+  /// Parses [source] as a validated network URI.
   static Uri parseNetworkUri(String source) {
     final normalized = normalizeSource(source);
     if (!isNetworkUrl(normalized)) {
@@ -112,6 +147,7 @@ class FileUtils {
     return Uri.parse(normalized);
   }
 
+  /// Resolves an asset lookup key, optionally prefixing it with [packageName].
   static String resolveAssetKey(String source, {String? packageName}) {
     final normalized = _stripLeadingCurrentDirectory(normalizeSource(source));
 
@@ -127,6 +163,7 @@ class FileUtils {
     return 'packages/$trimmedPackageName/$normalized';
   }
 
+  /// Converts a local path or file URI into a [File] instance.
   static File resolveLocalFile(String source) {
     final normalized = normalizeSource(source);
     final uri = Uri.tryParse(normalized);
@@ -138,6 +175,7 @@ class FileUtils {
     return File(normalized).absolute;
   }
 
+  /// Builds a normalized cache key for any supported [source].
   static String buildCacheKey(String source, {String? assetPackage}) {
     switch (detectSourceType(source)) {
       case FileSourceType.network:
@@ -149,6 +187,7 @@ class FileUtils {
     }
   }
 
+  /// Extracts a filename from [source], falling back to [fallback] when needed.
   static String extractFileName(
     String source, {
     String fallback = 'file',
@@ -176,11 +215,13 @@ class FileUtils {
     return trimmedFileName.isEmpty ? fallback : trimmedFileName;
   }
 
+  /// Returns the lowercase extension for [source] without the leading dot.
   static String extractExtension(String source, {String? assetPackage}) {
     final fileName = extractFileName(source, assetPackage: assetPackage);
     return _extensionFromFileName(fileName);
   }
 
+  /// Detects the [FileType] for [source] using its extension.
   static FileType detectFileType(String source) {
     switch (extractExtension(source)) {
       case 'jpg':
@@ -212,6 +253,7 @@ class FileUtils {
     }
   }
 
+  /// Builds a stable, file-system-safe name for managed cache storage.
   static String buildManagedFileName(String source, {String? assetPackage}) {
     final sanitizedFileName = sanitizeFileName(
       extractFileName(source, assetPackage: assetPackage),
@@ -232,6 +274,7 @@ class FileUtils {
     return '${compactBaseName}_$shortHash.$extension';
   }
 
+  /// Removes unsupported characters from a filename.
   static String sanitizeFileName(String value) {
     final trimmed = value.trim();
     if (trimmed.isEmpty) {
@@ -247,6 +290,7 @@ class FileUtils {
     return sanitized.isEmpty ? 'file' : sanitized;
   }
 
+  /// Returns a deterministic short hash for [input].
   static String stableHash(String input) {
     var hash = 2166136261;
 
@@ -258,6 +302,7 @@ class FileUtils {
     return hash.toUnsigned(32).toRadixString(16).padLeft(8, '0');
   }
 
+  /// Prints a package log line when [config.enableLog] is enabled.
   static void log(FileConfig config, String message) {
     if (!config.enableLog) {
       return;
