@@ -1,6 +1,6 @@
 name: universal_file_handler
 description: "Universal Flutter file handling with memory cache, disk cache, downloads, asset loading, viewers, and sharing."
-version: 0.1.2
+version: 0.1.1
 homepage: https://github.com/sagar9098/universal_file_handler
 license: MIT
 

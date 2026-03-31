@@ -21,8 +21,7 @@ class MyApp extends StatelessWidget {
 class FileExamplePage extends StatelessWidget {
   const FileExamplePage({super.key});
 
-  static const imageUrl =
-      "https://picsum.photos/400/600";
+  static const imageUrl = "https://picsum.photos/400/600";
 
   static const pdfUrl =
       "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf";
@@ -40,7 +39,6 @@ class FileExamplePage extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-
           ///  PREPARE FILE (Download + Cache)
           ElevatedButton(
             onPressed: () async {
@@ -55,9 +53,7 @@ class FileExamplePage extends StatelessWidget {
           ///  OPEN IMAGE
           ElevatedButton(
             onPressed: () async {
-              await UniversalFileHandler.open(context,
-                imageUrl,
-              );
+              await UniversalFileHandler.open(context, imageUrl);
             },
             child: const Text("Open Image"),
           ),
@@ -67,9 +63,7 @@ class FileExamplePage extends StatelessWidget {
           /// OPEN PDF
           ElevatedButton(
             onPressed: () async {
-              await UniversalFileHandler.open(context,
-                pdfUrl,
-              );
+              await UniversalFileHandler.open(context, pdfUrl);
             },
             child: const Text("Open PDF"),
           ),
@@ -79,7 +73,7 @@ class FileExamplePage extends StatelessWidget {
           ///  OPEN EXCEL (External App Required)
           ElevatedButton(
             onPressed: () async {
-              await UniversalFileHandler.open(context,excelUrl);
+              await UniversalFileHandler.open(context, excelUrl);
             },
             child: const Text("Open Excel"),
           ),
@@ -89,7 +83,7 @@ class FileExamplePage extends StatelessWidget {
           ///  OPEN WORD (External App Required)
           ElevatedButton(
             onPressed: () async {
-              await UniversalFileHandler.open(context,wordUrl);
+              await UniversalFileHandler.open(context, wordUrl);
             },
             child: const Text("Open Word"),
           ),
@@ -109,10 +103,9 @@ class FileExamplePage extends StatelessWidget {
           ///  ASSET FILE TEST
           ElevatedButton(
             onPressed: () async {
-              if(UniversalFileHandler.getFileType("assets/sample.jpg")==FileType.image) {
-                await UniversalFileHandler.open(context,
-                  "assets/sample.jpg",
-                );
+              if (UniversalFileHandler.getFileType("assets/sample.jpg") ==
+                  FileType.image) {
+                await UniversalFileHandler.open(context, "assets/sample.jpg");
               }
             },
             child: const Text("Open Asset Image"),
@@ -120,10 +113,9 @@ class FileExamplePage extends StatelessWidget {
           const SizedBox(height: 10),
           ElevatedButton(
             onPressed: () async {
-              if(UniversalFileHandler.getFileType("assets/word.doc")==FileType.word) {
-                await UniversalFileHandler.open(context,
-                  "assets/word.doc",
-                );
+              if (UniversalFileHandler.getFileType("assets/word.doc") ==
+                  FileType.word) {
+                await UniversalFileHandler.open(context, "assets/word.doc");
               }
             },
             child: const Text("Open Asset Word File"),
@@ -131,10 +123,9 @@ class FileExamplePage extends StatelessWidget {
           const SizedBox(height: 10),
           ElevatedButton(
             onPressed: () async {
-              if(UniversalFileHandler.getFileType("assets/excel.xlsx")==FileType.excel) {
-                await UniversalFileHandler.open(context,
-                  "assets/excel.xlsx",
-                );
+              if (UniversalFileHandler.getFileType("assets/excel.xlsx") ==
+                  FileType.excel) {
+                await UniversalFileHandler.open(context, "assets/excel.xlsx");
               }
             },
             child: const Text("Open Asset Excel File"),

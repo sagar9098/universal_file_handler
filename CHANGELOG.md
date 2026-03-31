@@ -5,7 +5,7 @@
 - Share support
 - Memory + disk cache
 
-## 0.1.2
+## 0.1.1
 
 - examples added
 - documentation
