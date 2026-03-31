@@ -26,7 +26,7 @@ class UniversalFileHandler {
   static FileType getFileType(String source) {
     return FileUtils.detectFileType(source);
   }
-
+  /// save file local or cache
   static Future<File> prepareFile(
     String source, {
     FileConfig config = const FileConfig(),
@@ -77,6 +77,8 @@ class UniversalFileHandler {
     return resolvedFile;
   }
 
+  /// Opens a file from network, asset, or local path.
+  /// Automatically detects type and handles accordingly.
   static Future<void> open(
     BuildContext? context,
     String source, {
@@ -129,7 +131,7 @@ class UniversalFileHandler {
         return;
     }
   }
-
+  /// share a file
   static Future<void> share(
     String source, {
     FileConfig config = const FileConfig(),
@@ -140,10 +142,12 @@ class UniversalFileHandler {
     await _shareService.shareFile(file, text: text, subject: subject);
   }
 
+  // clear all cache from memory
   static void clearMemoryCache() {
     _memoryCache.clear();
   }
 
+  // clear source cache from memory
   static void removeFromMemoryCache(
     String source, {
     FileConfig config = const FileConfig(),
@@ -154,7 +158,7 @@ class UniversalFileHandler {
     );
     _memoryCache.remove(sourceKey);
   }
-
+  // remove source from disk cache
   static Future<void> removeFromDiskCache(
     String source, {
     FileConfig config = const FileConfig(),
@@ -167,7 +171,7 @@ class UniversalFileHandler {
 
     await _cacheService.removeManagedFile(sourceKey, sourceType, config);
   }
-
+  // clear all from disk cache
   static Future<void> clearDiskCache({bool cache = true}) {
     return _cacheService.clearManagedCache(cache: cache);
   }

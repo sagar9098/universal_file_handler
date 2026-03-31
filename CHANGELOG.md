@@ -4,3 +4,8 @@
 - File open support
 - Share support
 - Memory + disk cache
+
+## 0.1.2
+
+- examples added
+- documentation
