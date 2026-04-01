@@ -1,8 +1,11 @@
 name: universal_file_handler
-description: "Universal Flutter file handling with memory cache, disk cache, downloads, asset loading, viewers, and sharing."
+description: A Flutter package to open, view, cache, and share files including image, PDF, Word, and Excel. Supports network, asset, and local files.
 version: 0.1.1
-homepage: https://github.com/sagar9098/universal_file_handler
 license: MIT
+homepage: https://github.com/sagar9098/universal_file_handler
+repository: https://github.com/sagar9098/universal_file_handler
+issue_tracker: https://github.com/sagar9098/universal_file_handler/issues
+
 
 environment:
   sdk: ^3.8.1

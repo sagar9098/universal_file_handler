@@ -1,19 +1,55 @@
 # Universal File Handler
 
-A Flutter package to open, cache, and share any file type.
+A Flutter package to open, view, cache, and share files such as PDF, images, Word, and Excel. Supports network, asset, and local file handling.
+
+## Overview
+
+Universal File Handler helps you easily open and manage different file types in Flutter apps with a single API.
 
 ## Features
 
-- Open images, PDFs, Word, Excel
-- Smart caching
+- Open images, PDFs, Word, and Excel files
+- Smart memory and disk caching
 - File type detection
-- Share files
+- Share files easily
+- Supports network, asset, and local files
+
+## Keywords
+
+Flutter file opener, Flutter open PDF, Flutter open image, Flutter document viewer, Flutter share file, Flutter Excel viewer, Flutter Word file opener, Flutter file cache
+
+---
+
+## Flutter Open PDF
+
+Open and view PDF files directly inside your Flutter app.
+
+## Flutter Open Image
+
+View images using a built-in image viewer.
+
+## Flutter File Sharing
+
+Share any file (PDF, image, Word, Excel) easily.
+
+## Flutter File Cache System
+
+Automatically cache files for faster access and offline usage.
+
+---
 
 ## Usage
 
-```dart
-await UniversalFileHandler.open(context,url);.
+### Open File
 
+```dart
+await UniversalFileHandler.open(
+  context,
+  fileUrl,
+);
+
+// Share file in Flutter
+await UniversalFileHandler.share(fileUrl);
 
 ElevatedButton(
   onPressed: () {
