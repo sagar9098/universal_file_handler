@@ -9,3 +9,9 @@
 
 - examples added
 - documentation
+- 
+## 0.1.2
+
+- added password protected pdf support
+- added hero animation for image view
+- fix color issue in image view

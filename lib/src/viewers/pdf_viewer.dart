@@ -25,6 +25,7 @@ class _PdfViewerState extends State<PdfViewer> {
   String? _errorMessage;
   int _currentPage = 0;
   int _totalPages = 0;
+  String? _password;
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +51,9 @@ class _PdfViewerState extends State<PdfViewer> {
       body: Stack(
         children: <Widget>[
           PDFView(
+            key: ValueKey(_password),
             filePath: widget.file.path,
+            password: _password,
             onRender: (pages) {
               if (!mounted) {
                 return;
@@ -75,11 +78,16 @@ class _PdfViewerState extends State<PdfViewer> {
               if (!mounted) {
                 return;
               }
+              final errorStr = error.toString().toLowerCase();
 
-              setState(() {
-                _errorMessage = '$error';
-                _isReady = true;
-              });
+              if (errorStr.contains('password')) {
+                _askPassword(); // Show password dialog
+              } else {
+                setState(() {
+                  _errorMessage = '$error';
+                  _isReady = true;
+                });
+              }
             },
             onPageError: (page, error) {
               if (!mounted) {
@@ -125,5 +133,65 @@ class _PdfViewerState extends State<PdfViewer> {
         ],
       ),
     );
+  }
+
+  void _askPassword() async {
+    final controller = TextEditingController();
+
+    final password = await showDialog<String>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text(
+            "Enter PDF Password",
+            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+          ),
+          content: TextField(
+            controller: controller,
+            obscureText: true,
+            decoration: const InputDecoration(
+              hintText: "Password",
+              border: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.black),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.black),
+              ),
+              disabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.black),
+              ),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text(
+                "Cancel",
+                style: TextStyle(fontSize: 14, color: Colors.black),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context, controller.text);
+              },
+              child: const Text(
+                "Open",
+                style: TextStyle(fontSize: 14, color: Colors.black),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (password != null && password.isNotEmpty) {
+      setState(() {
+        _password = password;
+        _isReady = false;
+        _errorMessage = null;
+      });
+    }else{
+      Navigator.pop(context);
+    }
   }
 }

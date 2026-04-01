@@ -13,7 +13,7 @@ import 'cache_service.dart';
 import 'memory_cache_service.dart';
 import 'share_service.dart';
 
-/// Public entrypoint for resolving, opening, caching, and sharing files.
+/// Public entry point for resolving, opening, caching, and sharing files.
 class UniversalFileHandler {
   UniversalFileHandler._();
 
@@ -87,11 +87,13 @@ class UniversalFileHandler {
   ///
   /// Pass [context] for image and PDF files so the built-in viewers can be
   /// presented. Other file types are forwarded to the platform opener.
+  /// tag parameter is used for hero animation
+
   static Future<void> open(
     BuildContext? context,
     String source, {
     FileConfig config = const FileConfig(),
-    String? title,
+    String? title, String? tag,
   }) async {
     final file = await prepareFile(source, config: config);
     if (context != null && !context.mounted) {
@@ -110,7 +112,7 @@ class UniversalFileHandler {
         }
         await Navigator.of(context).push(
           MaterialPageRoute<void>(
-            builder: (_) => ImageViewer(file: file, title: title),
+            builder: (_) => ImageViewer(file: file, title: title,tag: tag,),
           ),
         );
         return;

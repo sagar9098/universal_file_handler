@@ -1,6 +1,6 @@
 name: universal_file_handler
 description: A Flutter package to open, view, cache, and share files including image, PDF, Word, and Excel. Supports network, asset, and local files.
-version: 0.1.1
+version: 0.1.2
 license: MIT
 homepage: https://github.com/sagar9098/universal_file_handler
 repository: https://github.com/sagar9098/universal_file_handler
