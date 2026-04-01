@@ -130,6 +130,48 @@ class FileExamplePage extends StatelessWidget {
             },
             child: const Text("Open Asset Excel File"),
           ),
+          const SizedBox(height: 10),
+          InkWell(
+            onTap: () {
+              UniversalFileHandler.open(
+                context,
+                "assets/sample.jpg",
+                tag: "sample.jpg",
+              );
+            },
+            child: Hero(
+              tag: "sample.jpg",
+              flightShuttleBuilder:
+                  (
+                    flightContext,
+                    animation,
+                    flightDirection,
+                    fromHeroContext,
+                    toHeroContext,
+                  ) {
+                    return FadeTransition(
+                      opacity: animation,
+                      child: toHeroContext.widget,
+                    );
+                  },
+              child: Center(
+                child: CircleAvatar(
+                  radius: 65,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(100),
+                    child: FutureBuilder(
+                      future: UniversalFileHandler.prepareFile("assets/sample.jpg"),
+                      builder: (context, snapshot) => (snapshot.hasData && snapshot.data!=null)?Image.file(
+                         snapshot.data!,
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                      ):CircularProgressIndicator.adaptive(),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
