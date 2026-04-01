@@ -190,7 +190,8 @@ class _PdfViewerState extends State<PdfViewer> {
         _isReady = false;
         _errorMessage = null;
       });
-    }else{
+    } else {
+      if (!mounted) return;
       Navigator.pop(context);
     }
   }

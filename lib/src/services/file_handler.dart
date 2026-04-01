@@ -93,7 +93,8 @@ class UniversalFileHandler {
     BuildContext? context,
     String source, {
     FileConfig config = const FileConfig(),
-    String? title, String? tag,
+    String? title,
+    String? tag,
   }) async {
     final file = await prepareFile(source, config: config);
     if (context != null && !context.mounted) {
@@ -112,7 +113,7 @@ class UniversalFileHandler {
         }
         await Navigator.of(context).push(
           MaterialPageRoute<void>(
-            builder: (_) => ImageViewer(file: file, title: title,tag: tag,),
+            builder: (_) => ImageViewer(file: file, title: title, tag: tag),
           ),
         );
         return;

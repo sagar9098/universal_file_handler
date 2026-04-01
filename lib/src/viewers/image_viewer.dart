@@ -26,8 +26,10 @@ class ImageViewer extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(resolvedTitle,
-          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),),
+        title: Text(
+          resolvedTitle,
+          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+        ),
         actions: [
           IconButton(
             onPressed: () {
@@ -37,12 +39,10 @@ class ImageViewer extends StatelessWidget {
           ),
         ],
       ),
-      body: tag==null?_buildImage():Hero(
-        tag: tag!,
-        child: _buildImage(),
-      ),
+      body: tag == null ? _buildImage() : Hero(tag: tag!, child: _buildImage()),
     );
   }
+
   Widget _buildImage() {
     return PhotoView(
       imageProvider: FileImage(file),
@@ -52,7 +52,7 @@ class ImageViewer extends StatelessWidget {
         final expectedBytes = event?.expectedTotalBytes;
         final loadedBytes = event?.cumulativeBytesLoaded;
         final progress =
-        expectedBytes == null || expectedBytes == 0 || loadedBytes == null
+            expectedBytes == null || expectedBytes == 0 || loadedBytes == null
             ? null
             : loadedBytes / expectedBytes;
 
