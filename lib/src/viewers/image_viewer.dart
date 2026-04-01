@@ -8,7 +8,7 @@ import '../../universal_file_handler.dart';
 /// Full-screen viewer for image files resolved by the package.
 class ImageViewer extends StatelessWidget {
   /// Creates an image viewer for [file].
-  const ImageViewer({super.key, required this.file, this.title, this.tag});
+  const ImageViewer({super.key, required this.file, this.title, this.tag,this.isShare});
 
   /// Local image file to display.
   final File file;
@@ -18,6 +18,9 @@ class ImageViewer extends StatelessWidget {
 
   /// Optional data for hero transitions.
   final String? tag;
+
+  /// Optional bool for sharing icon by default true.
+  final bool? isShare;
   @override
   Widget build(BuildContext context) {
     final resolvedTitle = title?.trim().isNotEmpty == true
@@ -30,7 +33,7 @@ class ImageViewer extends StatelessWidget {
           resolvedTitle,
           style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
         ),
-        actions: [
+        actions: isShare==false?[]: [
           IconButton(
             onPressed: () {
               UniversalFileHandler.share(file.path);
